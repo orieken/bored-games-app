@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x, 18.x]
+        node-version: [20.x]
 
     steps:
       - name: Checkout repository
@@ -21,10 +21,10 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          cache: yarn
+          cache: npm
 
-      - name: Install Yarn dependencies
-        run: yarn --frozen-lockfile --prefer-offline
+      - name: NPM Install dependencies
+        run: npm --frozen-lockfile --prefer-offline
 
       - name: Install macOS dependencies
         run: |
@@ -54,7 +54,7 @@ jobs:
         run: cd ios ; pod install ; cd -
 
       - name: Detox rebuild framework cache
-        run: yarn detox rebuild-framework-cache
+        run: npm detox rebuild-framework-cache
 
       - name: Cache Detox build
         id: cache-detox-build
@@ -66,10 +66,10 @@ jobs:
             ${{ runner.os }}-detox-build
 
       - name: Detox build
-        run: yarn detox build --configuration ios.release
+        run: npm detox build --configuration ios.release
 
       - name: Detox test
-        run: yarn detox test --configuration ios.release --cleanup --headless --record-logs all
+        run: npm detox test --configuration ios.release --cleanup --headless --record-logs all
 
       - name: Upload artifacts
         if: failure()
