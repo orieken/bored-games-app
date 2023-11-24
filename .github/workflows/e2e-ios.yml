@@ -66,10 +66,10 @@ jobs:
             ${{ runner.os }}-detox-build
 
       - name: Detox build
-        run: npx detox build --configuration ios.release
+        run: npm run e2e:ios:build
 
       - name: Detox test
-        run: npx detox test --configuration ios.release --cleanup --headless --record-logs all
+        run: npm run e2e:ios:test
 
       - name: Upload artifacts
         if: failure()
